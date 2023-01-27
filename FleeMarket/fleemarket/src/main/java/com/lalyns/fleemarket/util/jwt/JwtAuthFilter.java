@@ -1,56 +1,56 @@
-package com.lalyns.fleemarket.util.jwt;
+// package com.lalyns.fleemarket.util.jwt;
 
-import java.io.IOException;
+// import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.GenericFilter;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+// import javax.servlet.FilterChain;
+// import javax.servlet.GenericFilter;
+// import javax.servlet.ServletException;
+// import javax.servlet.ServletRequest;
+// import javax.servlet.ServletResponse;
+// import javax.servlet.http.HttpServletRequest;
+// import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+// import org.json.JSONObject;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import io.jsonwebtoken.Claims;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+// import io.jsonwebtoken.Claims;
+// import lombok.RequiredArgsConstructor;
+// import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@RequiredArgsConstructor
-public class JwtAuthFilter extends GenericFilter {
-    private final JwtUtil jwtUtil;
+// @Slf4j
+// @RequiredArgsConstructor
+// public class JwtAuthFilter extends GenericFilter {
+//     private final JwtUtil jwtUtil;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+//     @Override
+//     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+//             throws IOException, ServletException {
                 
-            try {
-                String token = jwtUtil.resolveToken((HttpServletRequest) request);
+//             try {
+//                 String token = jwtUtil.resolveToken((HttpServletRequest) request);
     
-                if (token != null && jwtUtil.validateTokenExceptExpiration(token)) {
-                    Claims info = jwtUtil.getUserInfoFromToken(token);
-                    Authentication authentication = jwtUtil.createAuthentication(info.getSubject());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+//                 if (token != null && jwtUtil.validateTokenExceptExpiration(token)) {
+//                     Claims info = jwtUtil.getUserInfoFromToken(token);
+//                     Authentication authentication = jwtUtil.createAuthentication(info.getSubject());
+//                     SecurityContextHolder.getContext().setAuthentication(authentication);
+//                 }
     
-                chain.doFilter(request, response);
-            } catch (UsernameNotFoundException exception) {
-                HttpServletResponse realResponse = (HttpServletResponse) response;
-                log.error("e = {}", exception.getMessage());
-                realResponse.setContentType("application/json;charset=UTF-8");
-                realResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                 chain.doFilter(request, response);
+//             } catch (UsernameNotFoundException exception) {
+//                 HttpServletResponse realResponse = (HttpServletResponse) response;
+//                 log.error("e = {}", exception.getMessage());
+//                 realResponse.setContentType("application/json;charset=UTF-8");
+//                 realResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     
-                JSONObject responseJson = new JSONObject();
-                responseJson.put("message", exception.getMessage());
-                responseJson.put("code", 400);
+//                 JSONObject responseJson = new JSONObject();
+//                 responseJson.put("message", exception.getMessage());
+//                 responseJson.put("code", 400);
     
-                realResponse.getWriter().print(responseJson);
-            }
+//                 realResponse.getWriter().print(responseJson);
+//             }
         
-    }
+//     }
 
-}
+// }

@@ -12,7 +12,7 @@ import com.lalyns.fleemarket.dto.users.response.LoginRes;
 import com.lalyns.fleemarket.dto.users.response.RegistRes;
 import com.lalyns.fleemarket.entity.User;
 import com.lalyns.fleemarket.repository.UserRepository;
-import com.lalyns.fleemarket.util.jwt.JwtUtil;
+// import com.lalyns.fleemarket.util.jwt.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements UserServiceInterface {
     private final UserRepository userRepository;
     
-    private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
+    // private final JwtUtil jwtUtil;
+    // private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional

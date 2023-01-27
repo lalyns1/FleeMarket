@@ -13,9 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.lalyns.fleemarket.util.jwt.JwtAuthFilter;
-import com.lalyns.fleemarket.util.jwt.JwtUtil;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -23,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig {
-    private final JwtUtil jwtUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,7 +29,8 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .antMatchers("/login");
     }
 
     @Bean
@@ -41,18 +38,11 @@ public class WebSecurityConfig {
         http
             .httpBasic().disable()
             .csrf().disable()
-            .formLogin().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeHttpRequests()
-                .antMatchers("/api/users/**").permitAll()
-                .anyRequest().authenticated()
-            .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-            .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
-            .and()
-                .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated();
         
         return http.build();
     }
