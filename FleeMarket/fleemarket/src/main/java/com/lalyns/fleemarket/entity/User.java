@@ -2,12 +2,12 @@ package com.lalyns.fleemarket.entity;
 
 import javax.persistence.*;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity(name="users")
-@Builder
-@Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +18,21 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+    
+    @Column
+    private String refreshToken;
+
+    public User(String username, String password, UserRoleEnum role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }
