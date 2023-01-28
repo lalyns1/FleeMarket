@@ -1,7 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+axios.defaults.baseURL = "http://localhost:8080";
 
 function App() {
+  function login(res) {
+    console.log(res);
+    res.data.data.get("");
+
+    return "aa";
+  }
+
+  function setValue(res) {
+    var username;
+    username = res;
+  }
+
+  function getValue() {
+    return username;
+  }
+
+  axios.get("/index")
+      .then(login).then()
+      .catch()
+      .finally();
+
   return (
     <div className="App">
       <header className="App-header">
