@@ -27,8 +27,17 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> registerUser
         (@RequestBody RegistReq request) 
     {
+        System.out.println("ID: " + request.getUsername() + "PW: " + request.getPassword());
         userService.registerUser(request);        
-        return DefaultResponseEntity.setResponseEntity(null, "회원가입 성공", HttpStatus.OK);
+        return DefaultResponseEntity.setResponseEntity(request, "회원가입 성공", HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/register/check")
+    public ResponseEntity<Map<String, Object>> checkUsername
+        (@RequestBody RegistReq request) 
+    {
+        boolean data = userService.checkUsername(request);        
+        return DefaultResponseEntity.setResponseEntity(data, "중복 체크 확인", HttpStatus.OK);
     }
     
     @PostMapping(value = "/login")
@@ -36,7 +45,8 @@ public class UserController {
         (@RequestBody LoginReq request,
         HttpServletResponse response) 
     {
-        userService.login(request, response);
+        System.out.println("request on");
+        // userService.login(request, response);
         return DefaultResponseEntity.setResponseEntity(null, "로그인 성공", HttpStatus.OK);
     }
 }

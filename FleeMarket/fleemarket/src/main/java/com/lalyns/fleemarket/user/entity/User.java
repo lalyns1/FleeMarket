@@ -13,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -23,16 +23,15 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
     
-    @Column
-    private String refreshToken;
-
     public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.role = UserRoleEnum.USER;
     }
 }

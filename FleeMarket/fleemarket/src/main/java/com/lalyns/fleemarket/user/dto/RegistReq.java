@@ -1,10 +1,10 @@
 package com.lalyns.fleemarket.user.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Builder
-@Data
+@Getter
+@NoArgsConstructor
 public class RegistReq {
     private String username;
     private String password;

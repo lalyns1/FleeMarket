@@ -12,7 +12,6 @@ import com.lalyns.fleemarket.user.dto.LoginRes;
 import com.lalyns.fleemarket.user.dto.RegistRes;
 import com.lalyns.fleemarket.user.entity.User;
 import com.lalyns.fleemarket.user.repository.UserRepository;
-// import com.lalyns.fleemarket.util.jwt.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,11 +21,22 @@ public class UserService implements UserServiceInterface {
     private final UserRepository userRepository;
     
     // private final JwtUtil jwtUtil;
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public RegistRes registerUser(RegistReq request) {
+        String username = request.getUsername();
+        String password = passwordEncoder.encode(request.getPassword());
+
+        if(existsByUsername(username)){
+            throw new IllegalArgumentException("해당 아이디("+username+")는 중복된 아이디입니다.");
+        }
+
+        User user = new User(username, password);
+        
+        userRepository.save(user);
+
         return new RegistRes();
     }
 
@@ -36,4 +46,15 @@ public class UserService implements UserServiceInterface {
 
         return new LoginRes();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkUsername(RegistReq request) {
+        return existsByUsername(request.getUsername());
+    }
+
+    private boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
 }
