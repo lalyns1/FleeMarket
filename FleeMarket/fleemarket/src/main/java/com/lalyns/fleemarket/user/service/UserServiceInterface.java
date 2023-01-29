@@ -7,5 +7,6 @@ import com.lalyns.fleemarket.user.dto.*;
 public interface UserServiceInterface {
     RegistRes registerUser(RegistReq request);
     LoginRes login(LoginReq request, HttpServletResponse response);
+    boolean checkUsername(RegistReq request);
 
 }
