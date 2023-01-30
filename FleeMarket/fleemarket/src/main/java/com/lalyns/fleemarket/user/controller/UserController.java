@@ -27,7 +27,6 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> registerUser
         (@RequestBody RegistReq request) 
     {
-        System.out.println("ID: " + request.getUsername() + "PW: " + request.getPassword());
         userService.registerUser(request);        
         return DefaultResponseEntity.setResponseEntity(request, "회원가입 성공", HttpStatus.OK);
     }
@@ -45,7 +44,6 @@ public class UserController {
         (@RequestBody LoginReq request,
         HttpServletResponse response) 
     {
-        System.out.println("request on");
         // userService.login(request, response);
         return DefaultResponseEntity.setResponseEntity(null, "로그인 성공", HttpStatus.OK);
     }
