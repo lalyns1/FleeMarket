@@ -29,20 +29,19 @@ public class UserService implements UserServiceInterface {
         String username = request.getUsername();
         String password = passwordEncoder.encode(request.getPassword());
 
-        if(existsByUsername(username)){
+        if(existsByUsername(username)) {
             throw new IllegalArgumentException("해당 아이디("+username+")는 중복된 아이디입니다.");
         }
 
-        User user = new User(username, password);
+        User user = userRepository.saveAndFlush(new User(username, password));
         
-        userRepository.save(user);
-
-        return new RegistRes();
+        return new RegistRes().res(user);
     }
 
     @Override
     @Transactional // readOnly= true  하면 에러남
     public LoginRes login(LoginReq loginRequest, HttpServletResponse response) {  
+        
 
         return new LoginRes();
     }

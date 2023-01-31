@@ -27,8 +27,8 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> registerUser
         (@RequestBody RegistReq request) 
     {
-        userService.registerUser(request);        
-        return DefaultResponseEntity.setResponseEntity(request, "회원가입 성공", HttpStatus.OK);
+        var data = userService.registerUser(request);        
+        return DefaultResponseEntity.setResponseEntity(data, "회원가입 성공", HttpStatus.OK);
     }
 
     @PostMapping(value = "/register/check")
@@ -44,7 +44,7 @@ public class UserController {
         (@RequestBody LoginReq request,
         HttpServletResponse response) 
     {
-        // userService.login(request, response);
+        userService.login(request, response);
         return DefaultResponseEntity.setResponseEntity(null, "로그인 성공", HttpStatus.OK);
     }
 }
